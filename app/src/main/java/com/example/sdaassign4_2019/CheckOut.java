@@ -3,6 +3,9 @@ package com.example.sdaassign4_2019;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +34,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.example.sdaassign4_2019.MainActivity.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+
 public class CheckOut extends AppCompatActivity {
 
     TextView mDisplaySummary, mDisplayConfirmation,mDisplayAvailability;
@@ -43,20 +49,34 @@ public class CheckOut extends AppCompatActivity {
 
     String Availability, Book_Title, BookingTime, RequestTime, User_ID ;
 
+    ViewPageAdapter myAdapter;
+    ViewPager myViewpager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
 
-        //find text views
-        mDisplayConfirmation = findViewById(R.id.confirm);
-        mDisplayAvailability = findViewById(R.id.availability);
-        mDisplaySummary = findViewById(R.id.orderSummary);
-
         //sharedpreference to obtain the book title
         SharedPreferences mUserName = getSharedPreferences("user-details", MODE_PRIVATE);
         String userName = mUserName.getString("BORROWER_NAME", "");
         final String userId = mUserName.getString("BORROWER_ID", "");
+
+        if (userName == "" || userName == null){
+
+
+            Toast.makeText(this, "NO USER DETAILS", Toast.LENGTH_LONG).show();
+
+            myAdapter = new ViewPageAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, this );
+            myAdapter.getItem(3);
+            myViewpager = findViewById(R.id.pager);
+            myViewpager.setAdapter(myAdapter);
+
+        }
+
+        //find text views
+        mDisplayConfirmation = findViewById(R.id.confirm);
+        mDisplayAvailability = findViewById(R.id.availability);
+        mDisplaySummary = findViewById(R.id.orderSummary);
 
         Intent myOrder = new Intent(this, LibraryViewAdapter.class);
         Bundle extras = getIntent().getExtras();

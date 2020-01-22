@@ -47,26 +47,25 @@ package com.example.sdaassign4_2019;
  */
 
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.ViewHolder> {
+
     private static final String TAG = "RecyclerViewAdapter";
+
     private Context mNewContext;
 
-    //add array for each item\
+    //add array for each item
     private ArrayList<String> mAuthor;
-    //declare methods
-
     private ArrayList<String> mTitle;
-    //private ArrayList<Integer> mImageID;
     private ArrayList<String> mImageUri;
 
 
-
     LibraryViewAdapter(Context mNewContext, ArrayList<String> author, ArrayList<String> title, ArrayList<String> imageUri) {
-    //LibraryViewAdapter(Context mNewContext, ArrayList<String> author, ArrayList<String> title, ArrayList<Integer> imageId) {
+
         this.mNewContext = mNewContext;
         this.mAuthor = author;
         this.mTitle = title;
-        //  this.mImageID = imageId;
         this.mImageUri = imageUri;
+
+
 
     }
     @NonNull
@@ -76,66 +75,53 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         return new ViewHolder(view);
     }
 
+    //Shared preference for Task3. As partial user detail can not be saved it is sufficient
+    //to check the user name only
+    //final SharedPreferences userName = mNewContext.getSharedPreferences("user-details", MODE_PRIVATE);
+    //String mUserName = userName.getString("BORROWER_NAME", "");
+
+
+    String mUserName = "";
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "onBindViewHolder: was called");
 
         viewHolder.authorText.setText(mAuthor.get(position));
         viewHolder.titleText.setText(mTitle.get(position));
-        //viewHolder.imageItem.setImageResource(mImageID.get(position));
-        //viewHolder.imageItem.Glide.with(this).load(storageReference).into()
 
-        //Glide.with(viewHolder.getContext());
-
-        //for (int i = 0; i < mImageUri.size(); i++) {
-            try {
-                Glide.with(viewHolder.imageItem.getContext())
-                        .load(mImageUri.get(position))
-                        .into(viewHolder.imageItem);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        //}
+        try {
+            Glide.with(viewHolder.imageItem.getContext())
+            .load(mImageUri.get(position))
+            .into(viewHolder.imageItem);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Task 3 to check if the user saved settings and to send the check result from Settings
-
         //should check here to see if the book is available.
         viewHolder.checkOut.setOnClickListener(new View.OnClickListener() {
+
+
+            SharedPreferences userName = mNewContext.getSharedPreferences("user-details", MODE_PRIVATE);
+            String mUserName = userName.getString("BORROWER_NAME", "");
+
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
 
-                    // Replace whatever is in the fragment_container view with this fragment,
-                    // and add the transaction to the back stack if needed
-                    ;
+                if (mUserName == null) {
+                    Toast.makeText(mNewContext, mTitle.get(position), Toast.LENGTH_SHORT).show();
+                }
 
-                    //SharedPreferences preferences = this.getPreferences(MODE_PRIVATE);
-                    // Commit the transaction
-                    //commit();
-
-                //Intent mySettingsReceive = new Intent(getActivity(),Settings.class);
-                //Bundle extras = getIntent().getExtras();
-                //mNewContext.startActivity(mySettingsReceive);
-
-
-            //}
-                //final String statusCheck = extras.getString("SETTINGS_CHECK");
-
-                //if(statusCheck == "true"){
+                else {
 
                     Toast.makeText(mNewContext, mTitle.get(position), Toast.LENGTH_SHORT).show();
-                    //...
-                    Intent myOrder = new Intent (mNewContext, CheckOut.class);
-                    myOrder.putExtra("BOOK_TITLE",mTitle.get(position));
-                    mNewContext.startActivity(myOrder);}
-
-                //else {
-                 //   Toast.makeText(mNewContext, "You need to update your settings first", Toast.LENGTH_SHORT).show();
-                 //   mNewContext.startActivity(mySettings);
-                //}
-
-            //}
+                    Intent myOrder = new Intent(mNewContext, CheckOut.class);
+                    myOrder.putExtra("BOOK_TITLE", mTitle.get(position));
+                    mNewContext.startActivity(myOrder);
+                }
+            }
         });
-
     }
 
     @Override
