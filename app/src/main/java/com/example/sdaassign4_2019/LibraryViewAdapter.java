@@ -102,7 +102,6 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         //should check here to see if the book is available.
         viewHolder.checkOut.setOnClickListener(new View.OnClickListener() {
 
-
             SharedPreferences userName = mNewContext.getSharedPreferences("user-details", MODE_PRIVATE);
             String mUserName = userName.getString("BORROWER_NAME", "");
 
@@ -111,6 +110,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
 
                 if (mUserName == null) {
                     Toast.makeText(mNewContext, mTitle.get(position), Toast.LENGTH_SHORT).show();
+
                 }
 
                 else {
@@ -119,6 +119,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                     Intent myOrder = new Intent(mNewContext, CheckOut.class);
                     myOrder.putExtra("BOOK_TITLE", mTitle.get(position));
                     mNewContext.startActivity(myOrder);
+
                 }
             }
         });

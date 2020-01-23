@@ -3,8 +3,6 @@ package com.example.sdaassign4_2019;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.DatePickerDialog;
@@ -12,13 +10,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,8 +47,7 @@ public class CheckOut extends AppCompatActivity {
 
     String Availability, Book_Title, BookingTime, RequestTime, User_ID ;
 
-    ViewPageAdapter myAdapter;
-    ViewPager myViewpager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +60,17 @@ public class CheckOut extends AppCompatActivity {
 
         if (userName == "" || userName == null){
 
-
             Toast.makeText(this, "NO USER DETAILS", Toast.LENGTH_LONG).show();
 
-            myAdapter = new ViewPageAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, this );
-            myAdapter.getItem(3);
-            myViewpager = findViewById(R.id.pager);
-            myViewpager.setAdapter(myAdapter);
+            //ViewPager myViewpager;
+            //myViewpager = findViewById(R.id.pager);
+            //ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getApplicationContext());
+            //myViewpager.setAdapter(adapter);
+            //myViewpager.setCurrentItem(2);
 
+            Intent mySettings = new Intent(getApplicationContext(), MainActivity.class);
+            mySettings.putExtra("SWITCH", "?");
+            startActivity(mySettings);
         }
 
         //find text views
