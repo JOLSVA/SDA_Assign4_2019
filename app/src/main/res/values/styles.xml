@@ -6,6 +6,28 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">serif</item>
+
     </style>
+
+
+    <style name="ButtonStyle" parent="">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:fontFamily">serif</item>
+    </style>
+
+    <style name="TextStyle" parent="">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:fontFamily">serif</item>
+
+    </style>
+
 
 </resources>

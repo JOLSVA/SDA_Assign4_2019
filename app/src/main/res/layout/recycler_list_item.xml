@@ -8,11 +8,12 @@
         android:id="@+id/bookImage"
         android:layout_width="92dp"
         android:layout_height="129dp"
-        android:contentDescription="@string/images_desc"
-        android:src="@drawable/sku10001" />
+        android:contentDescription="@string/images_desc"/>
+        <!--android:src="@drawable/sku10001"  -->
 
     <TextView
         android:id="@+id/authorText"
+        style="@style/TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/bookImage"
@@ -26,6 +27,7 @@
 
     <TextView
         android:id="@+id/bookTitle"
+        style="@style/TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/authorText"
@@ -40,11 +42,13 @@
 
     <Button
         android:id="@+id/out_button"
-        android:layout_width="wrap_content"
+        style="@style/ButtonStyle"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/bookImage"
         android:layout_below="@+id/bookTitle"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/check_out" />
 

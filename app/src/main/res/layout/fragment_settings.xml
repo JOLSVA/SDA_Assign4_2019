@@ -16,13 +16,14 @@
 
         <EditText
             android:id="@+id/userName"
+            style="@style/TextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="Borrower Name"
+            android:hint="@string/userName"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,13 +31,14 @@
 
         <EditText
             android:id="@+id/borrowerID"
+            style="@style/TextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="Borrower ID"
+            android:hint="@string/borrowerID"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,13 +46,14 @@
 
         <EditText
             android:id="@+id/email"
+            style="@style/TextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="Email address"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,21 +61,23 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyle"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:text="Save Details"
+            android:layout_marginStart="32dp"
+            android:text="@string/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/borrowerID" />
 
         <Button
             android:id="@+id/button_reset"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyle"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:text="Reset Details"
+            android:text="@string/button_reset"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button" />
 

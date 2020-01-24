@@ -11,5 +11,13 @@
     <string name="check_out">Check Out</string>
     <string name="library">library</string>
     <string name="button_reset">Reset Details</string>
+    <string name="date">Select Date</string>
+    <string name="orderButton">Send Order</string>
+    <string name="userName">Borrower Name</string>
+    <string name="borrowerID">Borrower ID</string>
+    <string name="email">Email address</string>
+    <string name="button">Save Details</string>
+    <string name="welcomeText">Welcome to DCU"'"s Book reservation app.</string>
+    <string name="officeHours">Book drop-off opens from 9am to 14:00 every day</string>
 
 </resources>

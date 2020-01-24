@@ -12,8 +12,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorTab"
+        android:background="@color/colorToolbar"
         android:elevation="4dp"
+        android:fontFamily="serif"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 
@@ -21,16 +22,19 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorToolbar"
+        android:background="@color/colorPrimaryDark"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
+        android:fontFamily="serif"
         app:tabGravity="fill"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/tabSelect"
+        app:tabIndicatorColor="@color/colorToolbar"
         app:tabTextColor="@color/TabText" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
