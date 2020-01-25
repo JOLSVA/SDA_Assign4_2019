@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         if (extras != null) {
             String checkString = extras.getString("SWITCH");
 
-            if (checkString != "?") {
+            if (checkString != "SETTINGS") {
                 viewPager.setCurrentItem(2);
             }
         }

@@ -3,8 +3,6 @@ package com.example.sdaassign4_2019;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,21 +29,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.example.sdaassign4_2019.MainActivity.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
-
 public class CheckOut extends AppCompatActivity {
 
     TextView mDisplaySummary, mDisplayConfirmation,mDisplayAvailability;
-
     Calendar mDateAndTime = Calendar.getInstance();
     Calendar mCurrentDateAndTime = Calendar.getInstance();
-
     Button mDateSelection, mOrderButton;
-
     private DatabaseReference bookDb;
-
-    String Availability, Book_Title, BookingTime, RequestTime, User_ID ;
-
+    String Book_Title, BookingTime, RequestTime, User_ID ;
+    String textAvailable = "The book is available.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +45,17 @@ public class CheckOut extends AppCompatActivity {
         setContentView(R.layout.activity_check_out);
 
         //sharedpreference to obtain the book title
-        SharedPreferences mUserName = getSharedPreferences("user-details", MODE_PRIVATE);
-        String userName = mUserName.getString("BORROWER_NAME", "");
-        final String userId = mUserName.getString("BORROWER_ID", "");
+        SharedPreferences mUserDetails = getSharedPreferences("user-details", MODE_PRIVATE);
+        String userName = mUserDetails.getString("BORROWER_NAME", "");
+        final String userId = mUserDetails.getString("BORROWER_ID", "");
 
         if (userName == "" || userName == null){
 
-            Toast.makeText(this, "NO USER DETAILS", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please provide user details first", Toast.LENGTH_LONG).show();
 
-            //ViewPager myViewpager;
-            //myViewpager = findViewById(R.id.pager);
-            //ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getApplicationContext());
-            //myViewpager.setAdapter(adapter);
-            //myViewpager.setCurrentItem(2);
-
+            // intent navigates to settings to fill out user details
             Intent mySettings = new Intent(getApplicationContext(), MainActivity.class);
-            mySettings.putExtra("SWITCH", "?");
+            mySettings.putExtra("SWITCH", "TO SETTINGS");
             startActivity(mySettings);
         }
 
@@ -78,6 +64,7 @@ public class CheckOut extends AppCompatActivity {
         mDisplayAvailability = findViewById(R.id.availability);
         mDisplaySummary = findViewById(R.id.orderSummary);
 
+        //to navigate from Library and to pass the Book Title
         Intent myOrder = new Intent(this, LibraryViewAdapter.class);
         Bundle extras = getIntent().getExtras();
         final String bookTitle = Objects.requireNonNull(extras.getString("BOOK_TITLE"));
@@ -97,26 +84,28 @@ public class CheckOut extends AppCompatActivity {
         //setting up the database
         bookDb = FirebaseDatabase.getInstance().getReference().child("BookReservation");
 
+        //update the database
         mOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 DatabaseReference bookDb2 = bookDb.child(bookTitle);
                 Map<String, Object> mapBookUpdate = new HashMap<>();
-                //map2.put("msg", mMessageEditText.getText().toString());
+
                 mapBookUpdate.put("RequestTime", mDateAndTime.getTime().toString());
                 mapBookUpdate.put("BookingTime", mCurrentDateAndTime.getTime().toString());
                 mapBookUpdate.put("Book_Title", bookTitle);
                 mapBookUpdate.put("User_ID", userId);
-                mapBookUpdate.put("Availability", "not available");
                 bookDb2.updateChildren(mapBookUpdate);
+
+                mOrderButton.setEnabled(false);
+                String displaySummary = bookTitle + " has been successfully booked.";
+                mDisplaySummary.setText(displaySummary);
             }
         });
 
-        //implements the event listener on on the database when the data updates then automatically
-        //update the conversation listview.
+        //database snapshot called for the Book Title reference selected
         DatabaseReference bookAvailabilityRef = bookDb.child(bookTitle);
-
         bookAvailabilityRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -126,14 +115,15 @@ public class CheckOut extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        mDisplayConfirmation.setText("Check out " + bookTitle);
+
+        String textDisplayConfrimation = "Check out" + bookTitle;
+        mDisplayConfirmation.setText(textDisplayConfrimation);
     }
 
     public void updateBookReservation(DataSnapshot dataSnapshot) {
 
         Iterator<DataSnapshot> i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
-            Availability = (String) (i.next()).getValue();
             Book_Title = (String) (i.next()).getValue();
             BookingTime = (String) (i.next()).getValue();
             RequestTime = (String) (i.next()).getValue();
@@ -142,9 +132,10 @@ public class CheckOut extends AppCompatActivity {
             //Log.d("dataSnapshot", "let us see" + Availability + Book_Title + BookingTime + RequestTime + User_ID);
 
         if (Book_Title == null){
-            mDisplayAvailability.setText("The book is available.");
+
+            mDisplayAvailability.setText(textAvailable);
             mDateSelection.setEnabled(true);
-            mOrderButton.setEnabled(true);
+            mOrderButton.setEnabled(false);
         }
         else {
             SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
@@ -163,19 +154,21 @@ public class CheckOut extends AppCompatActivity {
             cal.add(Calendar.DATE, 14);
             expiryDate = cal.getTime();
 
-            if ((Availability == "available") || (Availability == null)) {
-                mDisplayAvailability.setText("The book is available.");
+            if ((mCurrentDateAndTime.getTime().after(expiryDate))) {
+
+                mDisplayAvailability.setText(textAvailable);
                 mDateSelection.setEnabled(true);
-                mOrderButton.setEnabled(true);
-            } else {
-                mDisplayAvailability.setText("The book is not available. It's avaiable on the " + expiryDate.toString());
+                mOrderButton.setEnabled(false);
+            }
+            else {
+                String notAvailable = "The book is not available. It's avaiable on the " + expiryDate.toString();
+                mDisplayAvailability.setText(notAvailable);
                 mDateSelection.setEnabled(false);
                 mOrderButton.setEnabled(false);
             }
         }
     }
 
-    //source SDA_2019 android course examples ViewGroup demo
     public void onDateClicked(View v) {
 
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -185,32 +178,39 @@ public class CheckOut extends AppCompatActivity {
                 mDateAndTime.set(Calendar.MONTH, monthOfYear);
                 mDateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateDateAndTimeDisplay();
+                mOrderButton.setEnabled(true);
             }
         };
 
-        new DatePickerDialog(CheckOut.this, mDateListener,
+        //set up date picker
+        DatePickerDialog myDatePickerDialog = new DatePickerDialog(CheckOut.this, mDateListener,
                 mDateAndTime.get(Calendar.YEAR),
                 mDateAndTime.get(Calendar.MONTH),
-                mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
+                mDateAndTime.get(Calendar.DAY_OF_MONTH));
 
-    }
+        //restrict selection of past date and diplay
+        myDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+        myDatePickerDialog.show();
+   }
 
     private void updateDateAndTimeDisplay() {
 
-        //date time year
+        //get the user name and id for display
         SharedPreferences mUserName = getSharedPreferences("user-details", MODE_PRIVATE);
         String userName = mUserName.getString("BORROWER_NAME", "");
         String userId = mUserName.getString("BORROWER_ID", "");
 
+        // get the book title for display
         Intent myOrder = new Intent(this, LibraryViewAdapter.class);
         Bundle extras = getIntent().getExtras();
         final String bookTitle = Objects.requireNonNull(extras.getString("BOOK_TITLE"));
 
+        //date time year
         CharSequence currentTime = DateUtils.formatDateTime(this, mCurrentDateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_NUMERIC_DATE|DateUtils.FORMAT_SHOW_YEAR);
         CharSequence SelectedDate = DateUtils.formatDateTime(this, mDateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+
+        //display summary
         String finalSummary = userName + " (user ID:" + userId + ") is to borrow " + bookTitle + " from " + SelectedDate + ". The current time is " + currentTime;
-
         mDisplaySummary.setText(finalSummary);
-
     }
 }
