@@ -15,6 +15,7 @@
         android:background="@color/colorToolbar"
         android:elevation="4dp"
         android:fontFamily="serif"
+        android:textColor="#09A2F3"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 
@@ -30,6 +31,7 @@
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/tabSelect"
         app:tabIndicatorColor="@color/colorToolbar"
+        app:titleTextColor="@color/textColorTitle"
         app:tabTextColor="@color/TabText" />
 
     <androidx.viewpager.widget.ViewPager
