@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#F35A09</color>
-    <color name="colorAccent">#FAE5D3</color>
-    <color name="colorTab">#B1CAE8</color>
-    <color name="colorToolbar">#09A2F3</color>
-    <color name="TabText">#646468</color>
-    <color name="border_shade">#2A000000</color>
-    <color name="listText">#000000</color>
-    <color name="tabSelect">#F4F3EC</color>
-    <color name="textColor">#F4F3EC</color>
-    <color name="textColorTitle">#000000</color>
+<color name="colorPrimary">#DCDCDC</color>
+<color name="colorPrimaryDark">#fff68f</color>
+<color name="colorAccent">#FAE5D3</color>
+<color name="colorTab">#B1CAE8</color>
+<color name="colorToolbar">#708090</color>
+<color name="TabText">#414145</color>
+<color name="border_shade">#2A000000</color>
+<color name="listText">#000000</color>
+<color name="tabSelect">#414145</color>
+<color name="textColor">#F4F3EC</color>
+<color name="textColorTitle">#000000</color>
 </resources>

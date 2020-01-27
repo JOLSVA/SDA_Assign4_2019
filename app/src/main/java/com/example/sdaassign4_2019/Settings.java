@@ -81,6 +81,7 @@ public class Settings extends Fragment {
                     editor.putString(EMAIL_ADDRESS, emailAddress);
                     editor.putString(BORROWER_ID, borrowerID);
                     editor.apply();
+                    Toast.makeText(getContext(), "User details successfully saved.", Toast.LENGTH_LONG).show();
                 }
             }
         });

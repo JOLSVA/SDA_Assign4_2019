@@ -117,7 +117,7 @@ public class CheckOut extends AppCompatActivity {
             }
         });
 
-        String textDisplayConfrimation = "Check out" + bookTitle;
+        String textDisplayConfrimation = "Check out " + bookTitle;
         mDisplayConfirmation.setText(textDisplayConfrimation);
     }
 
@@ -162,7 +162,7 @@ public class CheckOut extends AppCompatActivity {
                 mOrderButton.setEnabled(false);
             }
             else {
-                String notAvailable = "The book is not available. It's avaiable on the " + expiryDate.toString();
+                String notAvailable = "The book is currently not available. It will be avaiable on the " + expiryDate.toString();
                 mDisplayAvailability.setText(notAvailable);
                 mDateSelection.setEnabled(false);
                 mOrderButton.setEnabled(false);
